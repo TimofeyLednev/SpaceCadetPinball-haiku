@@ -63,13 +63,17 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	printf(" ImGui %s %s\n", IMGUI_VERSION, ImGuiRender);
 
 	// SDL init
-	SDL_SetMainReady();
-	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO |
-		SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
-	{
-		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Could not initialize SDL2", SDL_GetError());
-		return 1;
-	}
+SDL_SetMainReady();
+if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
+{
+    pb::ShowMessageBox(
+        SDL_MESSAGEBOX_ERROR,
+        "Could not initialize SDL2",
+        SDL_GetError()
+    );
+    return 1;
+}
+
 
 	pb::quickFlag = strstr(lpCmdLine, "-quick") != nullptr;
 
@@ -427,7 +431,7 @@ void winmain::MainLoop()
 				if (Options.HybridSleep)
 					HybridSleep(targetTimeDelta);
 				else
-					std::this_thread::sleep_for(targetTimeDelta);
+					SDL_Delay(targetTimeDelta.count());
 				frameEnd = Clock::now();
 			}
 			else
@@ -1390,7 +1394,7 @@ void winmain::HybridSleep(DurationMs sleepTarget)
 	while (sleepTarget > SpinThreshold)
 	{
 		auto start = Clock::now();
-		std::this_thread::sleep_for(DurationMs(1));
+		SDL_Delay(1);
 		auto end = Clock::now();
 
 		auto actualDuration = DurationMs(end - start);

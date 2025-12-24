@@ -34,8 +34,8 @@
 //#include <array>
 
 #define SDL_MAIN_HANDLED
-#include "SDL.h"
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 // MIX_INIT_FLUIDSYNTH was renamed to MIX_INIT_MID in SDL_mixer v2.0.2
 // Older versions of SDL_mixer did not have SDL_MIXER_VERSION_ATLEAST

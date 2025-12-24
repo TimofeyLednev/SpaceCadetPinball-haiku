@@ -1,5 +1,16 @@
 #pragma once
 
+#include <sstream>
+
+// Workaround for old libstdc++ without std::to_string
+namespace std {
+    inline string to_string(int val) {
+        ostringstream ss;
+        ss << val;
+        return ss.str();
+    }
+}
+
 enum class Msg : int;
 
 enum class Menu1:int

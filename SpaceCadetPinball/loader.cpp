@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "loader.h"
 #include "GroupData.h"
 #include "TPinballComponent.h"
@@ -292,7 +292,7 @@ float loader::query_float_attribute(int groupIndex, int groupIndexOffset, int fi
 			return floatArr[1];
 	}
 
-	if (!isnan(defVal))
+	if (!std::isnan(defVal))
 		return defVal;
 	error(13, 22);
 	return NAN;

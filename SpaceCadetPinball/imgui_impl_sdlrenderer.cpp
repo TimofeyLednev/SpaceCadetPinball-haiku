@@ -33,7 +33,7 @@
 #endif
 
 // SDL
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #if SDL_VERSION_ATLEAST(2,0,17)
 
 // SDL_Renderer data

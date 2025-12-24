@@ -1,6 +1,6 @@
 #include "imgui_sdl.h"
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 #include "imgui.h"
 
@@ -14,6 +14,8 @@
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
+
+using ::round;
 
 namespace
 {
@@ -233,8 +235,8 @@ namespace
 
 		Color Sample(float u, float v) const
 		{
-			const int x = static_cast<int>(std::round(u * (Surface->w - 1) + 0.5f));
-			const int y = static_cast<int>(std::round(v * (Surface->h - 1) + 0.5f));
+			const int x = static_cast<int>(::round(u * (Surface->w - 1) + 0.5f));
+			const int y = static_cast<int>(::round(v * (Surface->h - 1) + 0.5f));
 
 			const int location = y * Surface->w + x;
 			assert(location < Surface->w * Surface->h);
@@ -311,13 +313,13 @@ namespace
 		{
 			static constexpr float scale = 16.0f;
 
-			const int x1 = static_cast<int>(std::round(v1.x * scale));
-			const int x2 = static_cast<int>(std::round(v2.x * scale));
-			const int x3 = static_cast<int>(std::round(v3.x * scale));
+			const int x1 = static_cast<int>(::round(v1.x * scale));
+			const int x2 = static_cast<int>(::round(v2.x * scale));
+			const int x3 = static_cast<int>(::round(v3.x * scale));
 
-			const int y1 = static_cast<int>(std::round(v1.y * scale));
-			const int y2 = static_cast<int>(std::round(v2.y * scale));
-			const int y3 = static_cast<int>(std::round(v3.y * scale));
+			const int y1 = static_cast<int>(::round(v1.y * scale));
+			const int y2 = static_cast<int>(::round(v2.y * scale));
+			const int y3 = static_cast<int>(::round(v3.y * scale));
 
 			int minX = (std::min({ x1, x2, x3 }) + 0xF) >> 4;
 			int maxX = (std::max({ x1, x2, x3 }) + 0xF) >> 4;
@@ -414,9 +416,9 @@ namespace
 		// First we check if there is a cached version of this triangle already waiting for us. If so, we can just do a super fast texture copy.
 
 		const auto key = std::make_tuple(
-			std::make_tuple(static_cast<int>(std::round(v1.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v1.pos.y)) - renderInfo.MinY, v1.uv.x, v1.uv.y, v1.col),
-			std::make_tuple(static_cast<int>(std::round(v2.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v2.pos.y)) - renderInfo.MinY, v2.uv.x, v2.uv.y, v2.col),
-			std::make_tuple(static_cast<int>(std::round(v3.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v3.pos.y)) - renderInfo.MinY, v3.uv.x, v3.uv.y, v3.col));
+			std::make_tuple(static_cast<int>(::round(v1.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v1.pos.y)) - renderInfo.MinY, v1.uv.x, v1.uv.y, v1.col),
+			std::make_tuple(static_cast<int>(::round(v2.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v2.pos.y)) - renderInfo.MinY, v2.uv.x, v2.uv.y, v2.col),
+			std::make_tuple(static_cast<int>(::round(v3.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v3.pos.y)) - renderInfo.MinY, v3.uv.x, v3.uv.y, v3.col));
 
 		if (CurrentDevice->GenericTriangleCache.Contains(key))
 		{
@@ -457,9 +459,9 @@ namespace
 		const auto& renderInfo = FixedPointTriangleRenderInfo::CalculateFixedPointTriangleInfo(v3.pos, v2.pos, v1.pos);
 
 		const auto key =std::make_tuple(v1.col,
-			static_cast<int>(std::round(v1.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v1.pos.y)) - renderInfo.MinY,
-			static_cast<int>(std::round(v2.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v2.pos.y)) - renderInfo.MinY,
-			static_cast<int>(std::round(v3.pos.x)) - renderInfo.MinX, static_cast<int>(std::round(v3.pos.y)) - renderInfo.MinY);
+			static_cast<int>(::round(v1.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v1.pos.y)) - renderInfo.MinY,
+			static_cast<int>(::round(v2.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v2.pos.y)) - renderInfo.MinY,
+			static_cast<int>(::round(v3.pos.x)) - renderInfo.MinX, static_cast<int>(::round(v3.pos.y)) - renderInfo.MinY);
 		if (CurrentDevice->UniformColorTriangleCache.Contains(key))
 		{
 			const auto& cached = CurrentDevice->UniformColorTriangleCache.At(key);

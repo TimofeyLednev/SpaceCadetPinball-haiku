@@ -67,7 +67,7 @@
 #include "imgui_impl_sdl.h"
 
 // SDL
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #ifdef _WIN32
 #include <SDL_syswm.h>
 #endif

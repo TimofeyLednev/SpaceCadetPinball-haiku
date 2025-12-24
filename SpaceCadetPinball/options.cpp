@@ -9,6 +9,19 @@
 #include "winmain.h"
 #include "translations.h"
 
+#include <cstdlib>
+
+// Workaround for old libstdc++
+namespace {
+    inline int stoi_compat(const std::string& str) {
+        return std::atoi(str.c_str());
+    }
+    
+    inline float stof_compat(const std::string& str) {
+        return std::atof(str.c_str());
+    }
+}
+
 constexpr int options::MaxUps, options::MaxFps, options::MinUps, options::MinFps, options::DefUps, options::DefFps;
 constexpr int options::MaxSoundChannels, options::MinSoundChannels, options::DefSoundChannels;
 constexpr int options::MaxVolume, options::MinVolume, options::DefVolume;
@@ -198,7 +211,7 @@ void options::uninit()
 int options::get_int(LPCSTR lpValueName, int defaultValue)
 {
 	auto value = GetSetting(lpValueName, std::to_string(defaultValue));
-	return std::stoi(value);
+	return stoi_compat(value);
 }
 
 void options::set_int(LPCSTR lpValueName, int data)
@@ -209,7 +222,7 @@ void options::set_int(LPCSTR lpValueName, int data)
 float options::get_float(LPCSTR lpValueName, float defaultValue)
 {
 	auto value = GetSetting(lpValueName, std::to_string(defaultValue));
-	return std::stof(value);
+	return stof_compat(value);
 }
 
 void options::set_float(LPCSTR lpValueName, float data)

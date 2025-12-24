@@ -214,7 +214,7 @@ void DebugOverlay::DrawBallInfo()
 				vector2 radVec1 = { 0, ballPosition.Y }, radVec2 = { ball->Radius, ballPosition.Y };
 				auto radVec1I = proj::xform_to_2d(radVec1), radVec2I = proj::xform_to_2d(radVec2);
 				auto radI = std::sqrt(maths::magnitudeSq(vector2i{ radVec1I.X - radVec2I.X ,radVec1I.Y - radVec2I.Y }));
-				SDL_RenderDrawCircle(winmain::Renderer, pt1.X, pt1.Y, static_cast<int>(std::round(radI)));
+				SDL_RenderDrawCircle(winmain::Renderer, pt1.X, pt1.Y, static_cast<int>(::round(radI)));
 
 				auto nextPos = ballPosition;
 				maths::vector_add(nextPos, maths::vector_mul(ball->Direction, ball->Speed / 10.0f));
